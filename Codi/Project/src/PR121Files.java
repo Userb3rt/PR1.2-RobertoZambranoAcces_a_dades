@@ -27,14 +27,19 @@ public class PR121Files {
         //Rename del archiu file2.txt
         file2.renameTo(new File("Codi\\Project\\src\\myFiles\\renamedFile.txt"));
         
+        mostrar_llistat(ficha);
 
-        //llistat dels arxius dins de la carpeta “myFiles”
+        //Eliminació del "file1.txt"
+        file1.delete();
+
+        mostrar_llistat(ficha);
+    }
+
+    public static void mostrar_llistat(File ficha){
+         //llistat dels arxius dins de la carpeta “myFiles”
         System.out.println("Els arxius de la carpeta són:");
         for (File ficheroEntrada : ficha.listFiles()) {
             System.out.println(ficheroEntrada.getName());
         }
-
-        //Eliminació del "file1.txt"
-        
     }
 }
