@@ -47,13 +47,11 @@ public class PR133mainTreballadors {
         }catch(Exception e){
             e.printStackTrace();
         }   
+
 }
 
-
-
-
-
 class Treballador{
+
     private int id;
     private String nom;
     private String cognom;
