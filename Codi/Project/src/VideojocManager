@@ -1,0 +1,81 @@
+
+public class VideojocManager {
+    private static final int ID_SIZE = 4; // bytes
+    private static final int CHAR_SIZE = 2; // bytes per caràcter en UTF-16
+    private static final int NAME_SIZE = 50; // Longitud màxima en caràcters del nom
+
+
+    public static void main(String[] args) {
+        try (RandomAccessFile raf = new RandomAccessFile("./data/videojocs.dat", "rw")) {
+            // Afegir videojocs
+            afegirVideojoc(raf, 1, "Assassin's Creed");
+            afegirVideojoc(raf, 2, "The Legend of Zelda");
+
+
+            // Consultar i mostrar els videojocs afegits
+            mostrarVideojoc(raf, 1, "Original");
+            mostrarVideojoc(raf, 2, "Original");
+
+
+            // Actualitzar els noms dels videojocs
+            actualitzarNomVideojoc(raf, 1, "Assassin's Creed Valhalla");
+            actualitzarNomVideojoc(raf, 2, "The Legend of Zelda: Breath of the Wild");
+
+
+            // Consultar i mostrar els videojocs actualitzats
+            mostrarVideojoc(raf, 1, "Actualitzat");
+            mostrarVideojoc(raf, 2, "Actualitzat");
+
+
+            // Tornar a actualitzar el primer videojoc
+            actualitzarNomVideojoc(raf, 1, "Assassin's Creed Odyssey");
+            mostrarVideojoc(raf, 1, "Re-actualitzat");
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void afegirVideojoc(RandomAccessFile raf, int id, String nom) throws Exception {
+        raf.seek(raf.length());
+        raf.writeInt(id);
+        raf.writeChars(getPaddedName(nom));
+    }
+
+
+    public static String consultarVideojoc(RandomAccessFile raf, int id) throws Exception {
+        raf.seek(getSeekPosition(id));
+        raf.readInt();
+        char[] chars = new char[NAME_SIZE];
+        for (int i = 0; i < NAME_SIZE; i++) {
+            chars[i] = raf.readChar();
+        }
+        return new String(chars).trim();
+    }
+
+
+    public static void actualitzarNomVideojoc(RandomAccessFile raf, int id, String nouNom) throws Exception {
+        raf.seek(getSeekPosition(id) + ID_SIZE);
+        raf.writeChars(getPaddedName(nouNom));
+    }
+
+
+    public static void mostrarVideojoc(RandomAccessFile raf, int id, String msg) throws Exception {
+        System.out.println(msg + " " + id + ": " + consultarVideojoc(raf, id));
+    }
+
+
+    private static long getSeekPosition(int id) {
+        return (id - 1) * (ID_SIZE + NAME_SIZE * CHAR_SIZE);
+    }
+
+
+    private static String getPaddedName(String name) {
+        if (name.length() > NAME_SIZE) {
+            return name.substring(0, NAME_SIZE);
+        }
+        return String.format("%1$-" + NAME_SIZE + "s", name);
+    }
+}

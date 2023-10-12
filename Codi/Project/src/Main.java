@@ -16,6 +16,10 @@ public class Main {
       menu = menu + "\n 4) PR123append";
       menu = menu + "\n 5) PR124linies";
       menu = menu + "\n 6) PR125cp";
+      menu = menu + "\n 7) PR131";
+      menu = menu + "\n 8) PR132";
+      menu = menu + "\n 9) PR133";
+      menu = menu + "\n 10) PR134";
       // Adapta aquí les altres classes de l’exercici (PR122cat…)
       menu = menu + "\n 100) Sortir";
       System.out.println(menu);
